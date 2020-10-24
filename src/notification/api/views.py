@@ -9,4 +9,10 @@ from rest_framework.permissions import AllowAny
 @api_view(['GET',])
 @permission_classes([AllowAny])
 def api_get_notifications(request):
-    return Response({'msg':'api is workin'})
+    try:
+        notifications = Notification.objects.all()
+    except Notification.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = NotificationSerializer(notifications, many=True)       
+        return Response(serializer.data,status=status.HTTP_200_OK)
