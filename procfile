@@ -1,0 +1,2 @@
+release: python manage.py migrate
+web: gunicorn src.blog.wsgi --log-file -
