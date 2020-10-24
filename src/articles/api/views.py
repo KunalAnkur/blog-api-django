@@ -83,3 +83,30 @@ def api_delete_article(request,pk):
         else:
             data["failure"] = "delete failed"
         return Response(data=data)   
+
+@api_view(['GET',])
+@permission_classes([AllowAny])
+def api_get_my_article_list(request):
+    user = request.user
+    try:
+        articles = Article.objects.filter(posted_by=user.id)
+    except Article.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ArticleSerializer(articles,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)             
+
+
+@api_view(['GET',])
+@permission_classes([AllowAny])
+def api_get_my_article_detail(request,pk):
+    user= request.user
+    try:
+        my_article_detail = Article.objects.get(id=pk,posted_by=user.id)
+    except Article.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = ArticleSerializer(my_article_detail)  
+        return Response(serializer.data,status=status.HTTP_200_OK)             
+     
