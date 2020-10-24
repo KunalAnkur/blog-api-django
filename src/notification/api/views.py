@@ -16,3 +16,15 @@ def api_get_notifications(request):
     if request.method == 'GET':
         serializer = NotificationSerializer(notifications, many=True)       
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+@api_view(['GET',])
+@permission_classes([AllowAny])
+def api_get_notification_for_user(request):
+    try:
+        user_notification = Notification.objects.exclude(article_author=request.user.id)
+    except Notification.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = NotificationSerializer(user_notification, many=True)       
+        return Response(serializer.data,status=status.HTTP_200_OK)
