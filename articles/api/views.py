@@ -119,3 +119,6 @@ def api_get_my_article_detail(request,pk):
         serializer = ArticleSerializer(my_article_detail)  
         return Response(serializer.data,status=status.HTTP_200_OK)             
      
+
+   
+  
