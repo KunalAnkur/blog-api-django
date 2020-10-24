@@ -70,19 +70,28 @@ def api_update_article_detail(request,pk):
 @api_view(['DELETE',])
 @permission_classes([AllowAny])
 def api_delete_article(request,pk):
+    user = request.user
     try:
         article_detail = Article.objects.get(id=pk)
     except Article.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND) 
 
     if request.method == 'DELETE':
-        operation = article_detail.delete()
         data = {}
-        if operation:
-            data["success"] = "delete successful"
+        if article_detail.posted_by == user.id:
+            operation = article_detail.delete()
+            
+            if operation:
+                data["success"] = "delete successful"
+                return Response(data=data,status=status.HTTP_200_OK)     
+            else:
+                data["failure"] = "delete failed"
+                return Response(data=data,status=status.HTTP_400_BAD_REQUEST)   
         else:
-            data["failure"] = "delete failed"
-        return Response(data=data)   
+            data["failure"] = "your not the author of this post"
+            return Response(data=data,status=status.HTTP_400_BAD_REQUEST)
+
+
 
 @api_view(['GET',])
 @permission_classes([AllowAny])
