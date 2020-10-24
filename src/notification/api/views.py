@@ -28,3 +28,21 @@ def api_get_notification_for_user(request):
     if request.method == 'GET':
         serializer = NotificationSerializer(user_notification, many=True)       
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+@api_view(['PUT',])
+@permission_classes([AllowAny])
+def api_mark_notification_read(request):
+    for id in request.data:
+        try:
+            notification =  Notification.objects.get(id=id)
+            old_notification = notification
+            notification.seen_status = True
+            notification.save()
+        except Notification.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)    
+    
+    return Response({"msg":"mark notification read"},status=status.HTTP_201_CREATED)    
+
+
+    
