@@ -2,18 +2,26 @@
 
 ### API Endpoints
 
+- For user registration:
+  `http://localhost:8000/rest-auth/registration/`
+
+- For user login:
+  `http://localhost:8000/rest-auth/login/`
+
+- For view list of authenticated user articles:
+  `http://localhost:8000/api/my-articles/`
+
+- For view details of authenticated user articles:
+  `http://localhost:8000/api/<int:pk>/my-article-detail/`
+
 - For view list of articles:
- `http://localhost:8000/api/`
- 
- 
+  `http://localhost:8000/api/`
+
 - For view details of article:
-  `http://localhost:8000/api/<pk>`
-    
+  `http://localhost:8000/api/<int:pk>/`
 - For create new article:
-   `http://localhost:8000/api/create/`
-   
+  `http://localhost:8000/api/create/`
 - For update article:
-   `http://localhost:8000/api/<pk>/update`
-   
+  `http://localhost:8000/api/<int:pk>/update/`
 - For delete article:
-   `http://localhost:8000/api/<pk>/delete`
+  `http://localhost:8000/api/<int:pk>/delete/`
