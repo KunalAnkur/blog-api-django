@@ -21,7 +21,15 @@
   `http://localhost:8000/api/<int:pk>/`
 - For create new article:
   `http://localhost:8000/api/create/`
+
 - For update article:
   `http://localhost:8000/api/<int:pk>/update/`
+
 - For delete article:
   `http://localhost:8000/api/<int:pk>/delete/`
+
+- For notification list
+  `http://localhost:8000/api/notification/get-notification/`
+
+- For notification for user:
+  `http://localhost:8000/api/notification/get-user-notification/`
