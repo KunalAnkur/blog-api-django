@@ -33,3 +33,6 @@
 
 - For notification for user:
   `http://localhost:8000/api/notification/get-user-notification/`
+
+- For notification for user:
+  `http://localhost:8000/api/notification/mark-notification-read/`
