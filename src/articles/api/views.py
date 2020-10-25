@@ -10,8 +10,8 @@ from django.contrib.auth.models import User
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def api_get_article_list(request):
-    print(request.GET.get('page'))
-    print(request.GET.get('limit'))
+    # print(request.GET.get('page'))
+    # print(request.GET.get('limit'))
     page = int(request.GET.get('page'))
     limit = int(request.GET.get('limit'))
     startIndex = (page-1)*limit
@@ -24,9 +24,21 @@ def api_get_article_list(request):
 
     if request.method == 'GET':
         serializer = ArticleSerializer(article, many=True)
-        results = serializer.data[startIndex:endIndex]
+        data = {}
+        if endIndex < len(serializer.data):    
+            data['next']={
+                'page':page+1,
+                'limit':limit
+            }
+        if startIndex>0:
+            data['previous']={
+                'page':page-1,
+                'limit':limit
+            }
+        data['results'] = serializer.data[startIndex:endIndex]
+        # results = serializer.data[startIndex:endIndex]
         
-        return Response(results,status=status.HTTP_200_OK)    
+        return Response(data,status=status.HTTP_200_OK)    
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
