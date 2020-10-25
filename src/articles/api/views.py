@@ -10,6 +10,13 @@ from django.contrib.auth.models import User
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def api_get_article_list(request):
+    print(request.GET.get('page'))
+    print(request.GET.get('limit'))
+    page = int(request.GET.get('page'))
+    limit = int(request.GET.get('limit'))
+    startIndex = (page-1)*limit
+    endIndex = page*limit
+
     try:
         article = Article.objects.all()
     except Article.DoesNotExist:
@@ -17,7 +24,9 @@ def api_get_article_list(request):
 
     if request.method == 'GET':
         serializer = ArticleSerializer(article, many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)    
+        results = serializer.data[startIndex:endIndex]
+        
+        return Response(results,status=status.HTTP_200_OK)    
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
