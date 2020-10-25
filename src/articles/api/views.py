@@ -118,6 +118,10 @@ def api_delete_article(request,pk):
 @permission_classes([AllowAny])
 def api_get_my_article_list(request):
     user = request.user
+    page = int(request.GET.get('page'))
+    limit = int(request.GET.get('limit'))
+    startIndex = (page-1)*limit
+    endIndex = page*limit
     try:
         articles = Article.objects.filter(posted_by=user.id)
     except Article.DoesNotExist:
@@ -125,7 +129,19 @@ def api_get_my_article_list(request):
 
     if request.method == 'GET':
         serializer = ArticleSerializer(articles,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)             
+        data = {}
+        if endIndex < len(serializer.data):    
+            data['next']={
+                'page':page+1,
+                'limit':limit
+            }
+        if startIndex>0:
+            data['previous']={
+                'page':page-1,
+                'limit':limit
+            }
+        data['results'] = serializer.data[startIndex:endIndex]
+        return Response(data,status=status.HTTP_200_OK)             
 
 
 @api_view(['GET',])
