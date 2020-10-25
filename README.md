@@ -9,13 +9,13 @@
   `http://localhost:8000/rest-auth/login/`
 
 - For view list of authenticated user articles:
-  `http://localhost:8000/api/my-articles/`
+  `http://localhost:8000/api/my-articles/?page=<PAGE_NUM>&limit=<LIMIT>`
 
 - For view details of authenticated user articles:
   `http://localhost:8000/api/<int:pk>/my-article-detail/`
 
 - For view list of articles:
-  `http://localhost:8000/api/`
+  `http://localhost:8000/api/?page=<PAGE_NUM>&limit=<LIMIT>`
 
 - For view details of article:
   `http://localhost:8000/api/<int:pk>/`
@@ -29,10 +29,10 @@
   `http://localhost:8000/api/<int:pk>/delete/`
 
 - For notification list
-  `http://localhost:8000/api/notification/get-notification/`
+  `http://localhost:8000/api/notification/get-notification/?page=<PAGE_NUM>&limit=<LIMIT>`
 
 - For notification for user:
-  `http://localhost:8000/api/notification/get-user-notification/`
+  `http://localhost:8000/api/notification/get-user-notification/?page=<PAGE_NUM>&limit=<LIMIT>`
 
-- For notification for user:
+- For mark notification read by user:
   `http://localhost:8000/api/notification/mark-notification-read/`
